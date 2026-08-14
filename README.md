@@ -1,262 +1,222 @@
-# Smart Queue Management System
+<div align="center">
 
-![Java](https://img.shields.io/badge/Java-17-orange)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-brightgreen)
-![MySQL](https://img.shields.io/badge/Database-MySQL-blue)
-![Maven](https://img.shields.io/badge/Build-Maven-red)
+🎮 Mini Games
 
-Smart Queue is a RESTful backend application designed to manage customer queues for multiple services and counters. It allows users to join a service queue, receive an automatically generated token number, follow queue activity, and view their queue history.
+A Collection of Fun Java Console Games
 
-The application follows a layered architecture with separate controller, service, repository, DTO, and entity layers.
+Learn Java fundamentals while playing simple interactive games.
 
-## Key Features
 
-- Register, update, retrieve, and delete users
-- Create and manage available services
-- Add counters and assign them to services
-- Update counter availability or operational status
-- Join a queue for a selected service
-- Automatically generate the next queue number
-- View active queues in ascending token order
-- Update the status of a queue entry
-- View a user's queue history
-- Retrieve, read, and delete notifications
-- Validate incoming requests
-- Handle application errors through a global exception handler
-- Allow cross-origin requests through CORS configuration
 
-## Technologies
 
-| Category | Technology |
-| --- | --- |
-| Language | Java 17 |
-| Framework | Spring Boot 4.0.2 |
-| API | Spring Web MVC / REST |
-| Persistence | Spring Data JPA, Hibernate |
-| Database | MySQL |
-| Build tool | Maven |
-| Object mapping | ModelMapper |
-| Boilerplate reduction | Lombok |
-| Validation | Jakarta Bean Validation |
-| Testing | JUnit, Spring Boot Test |
 
-## Architecture
+</div>
 
-```text
-Client
-  |
-  v
-Controller Layer
-  |
-  v
-Service Layer
-  |
-  v
-Repository Layer
-  |
-  v
-MySQL Database
-```
+📖 About the Project
 
-The DTO layer transfers request and response data without directly exposing persistence entities. A shared `APIResponse` model provides consistent responses for create, update, delete, and status-change operations.
+Mini Games is a beginner-friendly collection of interactive Java console games. The project demonstrates essential programming concepts such as loops, conditional statements, random-number generation, user input, validation, variables, and counters.
 
-## Main Domain Models
+The current version includes two guessing games with helpful hints and colorful console messages.
 
-- **User** - stores customer or staff information and role details
-- **Service** - represents a service for which customers can queue
-- **Counter** - represents a service counter and its current status
-- **Queue** - stores the user, service, token number, status, and creation time
-- **Notification** - stores user notifications and read status
+🕹️ Games Included
 
-## Project Structure
+🔐 1. Four-Digit Password Guessing Game
 
-```text
-src
-├── main
-│   ├── java/com/ijse/smartqueue
-│   │   ├── config
-│   │   ├── controller
-│   │   ├── dto
-│   │   ├── entity
-│   │   ├── exception
-│   │   ├── repository
-│   │   ├── service
-│   │   │   └── custom/impl
-│   │   ├── util
-│   │   └── SmartQueueApplication.java
-│   └── resources
-│       └── application.properties
-└── test
-    └── java/com/ijse/smartqueue
-```
+The program generates a random four-digit password between 1000 and 9999. The player continues guessing until the complete password is correct.
 
-## Prerequisites
+Game Features
 
-Install the following software before running the project:
+Generates a random four-digit password
 
-- Java Development Kit (JDK) 17
-- MySQL Server
-- Maven, or use the included Maven Wrapper
-- IntelliJ IDEA, VS Code, or another Java IDE
-- Postman or another API client for testing
+Accepts guesses from the player
 
-## Getting Started
+Validates whether the input contains four digits
 
-### 1. Clone the repository
+Checks each digit according to its position
 
-```bash
-git clone <your-repository-url>
-cd Smart-queue_AAD-master/smart-queue
-```
+Shows which positions are correct
 
-### 2. Configure MySQL
+Continues until the complete password is discovered
 
-Update `src/main/resources/application.properties` with your local MySQL credentials:
+Main class: Main.java
 
-```properties
-spring.application.name=smart-queue
+🎯 2. Number Guessing Game
 
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url=jdbc:mysql://localhost:3306/smartqueue?createDatabaseIfNotExist=true
-spring.datasource.username=YOUR_MYSQL_USERNAME
-spring.datasource.password=YOUR_MYSQL_PASSWORD
+The program selects a random number below 1000. The player guesses the number using the hints provided after every attempt.
 
-spring.jpa.generate-ddl=true
-spring.jpa.show-sql=true
-spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-spring.jpa.hibernate.ddl-auto=update
-```
+Game Features
 
-Do not commit real database passwords or other secrets to GitHub. Use environment variables for production deployments.
+Generates a new random number for each game
 
-### 3. Run the application
+Displays Too High or Too Low hints
 
-On Windows:
+Counts the number of attempts
 
-```bash
-mvnw.cmd spring-boot:run
-```
+Announces the correct answer when the player wins
 
-On macOS or Linux:
+Automatically starts a new round
 
-```bash
-./mvnw spring-boot:run
-```
+Main class: guessTheNumber.java
 
-The API will be available at:
+🧠 Programming Concepts
 
-```text
-http://localhost:8080
-```
+Concept
 
-## API Endpoints
+Usage in the Project
 
-### Users
+Variables
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/api/v1/user` | Register a user |
-| PUT | `/api/v1/user` | Update a user |
-| DELETE | `/api/v1/user/{id}` | Delete a user |
-| GET | `/api/v1/user/{id}` | Get a user by ID |
-| GET | `/api/v1/user` | Get all users |
+Store random values, guesses, digits, and attempt counts
 
-### Services
+Scanner
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/api/v1/service` | Create a service |
-| PUT | `/api/v1/service` | Update a service |
-| DELETE | `/api/v1/service/{id}` | Delete a service |
-| GET | `/api/v1/service/{id}` | Get a service by ID |
-| GET | `/api/v1/service` | Get all services |
+Read player input from the console
 
-### Counters
+Random
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/api/v1/counter` | Create a counter |
-| PATCH | `/api/v1/counter/{id}/status?status={status}` | Update counter status |
-| GET | `/api/v1/counter/service/{serviceId}` | Get counters assigned to a service |
-| GET | `/api/v1/counter` | Get all counters |
+Generate unpredictable game values
 
-### Queues
+while loops
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/api/v1/queue/join?userId={userId}&serviceId={serviceId}` | Join a service queue |
-| PATCH | `/api/v1/queue/{id}/status?status={status}` | Update queue status |
-| GET | `/api/v1/queue/active/{serviceId}` | Get pending queue entries for a service |
-| GET | `/api/v1/queue/user/{userId}` | Get a user's queue history |
+Continue the game until the winning condition is reached
 
-New queue entries receive the next available number for the selected service and start with the `PENDING` status.
+if / else
 
-### Notifications
+Compare guesses and display suitable hints
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/api/v1/notification/user/{userId}` | Get notifications for a user |
-| PATCH | `/api/v1/notification/{id}/read` | Mark a notification as read |
-| DELETE | `/api/v1/notification/{id}` | Delete a notification |
+Arithmetic operators
 
-New notifications use the `UNREAD` status.
+Separate individual digits from a four-digit number
 
-## Example: Join a Queue
+Input validation
 
-```http
-POST /api/v1/queue/join?userId=1&serviceId=1
-Host: localhost:8080
-```
+Reject numbers outside the required range
 
-Example response structure:
+🛠️ Technology Stack
 
-```json
-{
-  "status": 201,
-  "message": "Token Issued Successfully",
-  "data": {
-    "queueId": 1,
-    "userId": 1,
-    "serviceId": 1,
-    "queueNumber": 1,
-    "status": "PENDING",
-    "createdTime": "2026-08-14T10:30:00"
-  }
-}
-```
+Java
 
-## Testing
+Java Standard Library
 
-Run the test suite with the Maven Wrapper:
+IntelliJ IDEA
 
-```bash
-./mvnw test
-```
+Git and GitHub
 
-On Windows:
+No external libraries or frameworks are required.
 
-```bash
-mvnw.cmd test
-```
+📁 Project Structure
 
-## Future Improvements
+Mini_Games/
+├── src/
+│   ├── Main.java             # Four-digit password guessing game
+│   └── guessTheNumber.java   # Number guessing game
+├── My_Games.iml              # IntelliJ IDEA module file
+├── .gitignore
+└── README.md
 
-- Add Spring Security and JWT authentication
-- Add role-based authorization for administrators, staff, and customers
-- Add WebSocket updates for real-time queue changes
-- Add estimated waiting-time calculations
-- Add Swagger/OpenAPI documentation
-- Add Docker support
-- Add integration and service-layer tests
-- Connect a web or mobile frontend
+🚀 Getting Started
 
-## Author
+Prerequisites
 
-**Jayani Dissanayake**
+JDK 8 or later
 
-- GitHub: [jayanidissanayake15](https://github.com/jayanidissanayake15)
-- LinkedIn: [Jayani Dissanayake](https://www.linkedin.com/in/jayani-dissanayake-9b564a253)
+IntelliJ IDEA, VS Code, Eclipse, or a terminal
 
-## License
+Git, if cloning the repository
 
-This project is intended for educational and academic use. Add a `LICENSE` file if you plan to distribute it under a specific open-source license.
+Clone the Repository
+
+git clone https://github.com/jayanidissanayake15/Mini_Games.git
+cd Mini_Games
+
+▶️ How to Run
+
+Using IntelliJ IDEA
+
+Open IntelliJ IDEA.
+
+Select Open and choose the Mini_Games folder.
+
+Open the src directory.
+
+Choose Main.java or guessTheNumber.java.
+
+Click the green Run button next to the main method.
+
+Using the Terminal
+
+Run the four-digit password game:
+
+javac src/Main.java
+java -cp src Main
+
+Run the number guessing game:
+
+javac src/guessTheNumber.java
+java -cp src guessTheNumber
+
+🎮 Example Gameplay
+
+Password Guessing Game
+
+🔐 4-Digit Password Guessing Game
+🎮 I created a 4-digit password.
+Try to guess it!
+
+Enter your 4-digit guess: 1234
+✅ 2nd number is correct!
+
+Number Guessing Game
+
+🎮 WELCOME TO THE NUMBER GUESSING GAME!
+I picked a number below 1000.
+
+🎯 Enter your guess: 500
+📈 Too High!
+👇 Try a smaller number!
+
+🔮 Future Improvements
+
+Add a main menu for selecting a game
+
+Add difficulty levels
+
+Limit the number of attempts
+
+Save high scores
+
+Improve invalid-input handling
+
+Add more console games
+
+Create a graphical interface using JavaFX
+
+🤝 Contributing
+
+Suggestions and improvements are welcome. Fork the repository, create a branch, make your changes, and submit a pull request.
+
+👩‍💻 Author
+
+<div align="center">
+
+Jayani Dissanayake
+
+Full Stack Developer · Computer Science Undergraduate
+
+
+
+
+
+</div>
+
+📄 License
+
+This repository currently does not include a license. Add a suitable license before distributing the project or accepting external contributions.
+
+<div align="center">
+
+⭐ Enjoyed the games? Give this repository a star!
+
+Made with ☕ and Java by Jayani Dissanayake
+
+</div>
